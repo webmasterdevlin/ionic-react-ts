@@ -35,7 +35,7 @@
     "add:ios": "npx cap add ios",
     "open:android": "npx cap open android",
     "open:ios": "npx cap open ios",
-    "run:android": "ionic capacitor run android --livereload",
+    "run:android": "ionic capacitor run android --livereload --external",
     "run:ios": "ionic capacitor run ios --livereload"
   },
   "eslintConfig": {
