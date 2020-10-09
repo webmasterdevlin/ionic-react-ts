@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
+    "@apollo/client": "^3.2.2",
     "@capacitor/android": "^2.4.2",
     "@capacitor/core": "2.4.2",
     "@capacitor/ios": "^2.4.2",
@@ -31,9 +32,11 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "add:android": "npx cap add android",
-    "add:iOS": "npx cap add ios",
-    "open:android":"npx cap open android",
-    "open:iod":"npx cap open ios"
+    "add:ios": "npx cap add ios",
+    "open:android": "npx cap open android",
+    "open:ios": "npx cap open ios",
+    "run:android": "ionic capacitor run android --livereload",
+    "run:ios": "ionic capacitor run ios --livereload"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -51,7 +54,20 @@
     ]
   },
   "devDependencies": {
-    "@capacitor/cli": "2.4.2"
+    "@capacitor/cli": "2.4.2",
+    "eslint": "^6.8.0",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.4.0",
+    "prettier": "^2.1.2"
   },
-  "description": "An Ionic project"
+  "description": "An Ionic project",
+  "husky": {
+    "hooks": {
+      "pre-commit": "tsc --noEmit && lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.tsx": "eslint --cache --fix",
+    "*.{ts,tsx,css,md}": "prettier --write"
+  }
 }
