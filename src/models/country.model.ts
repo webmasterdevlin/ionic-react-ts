@@ -1,5 +1,3 @@
-import { useEffect } from 'react';
-
 export type CountryModel = {
   name: string;
   population: string;

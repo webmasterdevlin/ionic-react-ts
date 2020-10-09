@@ -37,31 +37,22 @@ import {
   InMemoryCache,
 } from '@apollo/client';
 import { CountriesResponseType, CountryModel } from './models/country.model';
+import { COUNTRIES_QUERY } from './graphql/queries';
 
 const BASE_URL = 'http://countries-274616.ew.r.appspot.com/';
 
 const App: React.FC = () => {
+  const [graphqlResponse, setGraphqlResponse] = useState<any>({});
+
   const client = new ApolloClient({
     cache: new InMemoryCache(),
     uri: BASE_URL,
     resolvers: {},
   });
 
-  const [graphqlResponse, setGraphqlResponse] = useState<any>({});
-
   client
     .query({
-      query: gql`
-        {
-          Country {
-            capital
-            name
-            officialLanguages {
-              name
-            }
-          }
-        }
-      `,
+      query: COUNTRIES_QUERY,
     })
     .then((res: CountriesResponseType) => {
       setGraphqlResponse(res);
