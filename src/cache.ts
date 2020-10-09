@@ -1,4 +1,5 @@
 import { InMemoryCache } from '@apollo/client';
+import { CountryModel } from './models/country.model';
 
 export const cache: InMemoryCache = new InMemoryCache({
   typePolicies: {
@@ -8,4 +9,4 @@ export const cache: InMemoryCache = new InMemoryCache({
   },
 });
 
-export const gameNamesVar = cache.makeVar<any[]>([]);
+export const countryNamesVar = cache.makeVar<CountryModel[]>([]);

@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+
 export type CountryModel = {
   name: string;
   population: string;
@@ -10,9 +12,9 @@ export type DistanceCountry = {
 };
 
 export type CountriesResponseType = {
-  data: CountriesDataType;
+  data?: CountriesDataType;
 };
 
 export type CountriesDataType = {
-  countries: Array<CountryModel>;
+  countries: CountryModel[];
 };
