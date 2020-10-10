@@ -1,1 +1,14 @@
-{}
+{
+  "appId": "io.ionic.starter",
+  "appName": "ionic-react-ts",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "build",
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  },
+  "cordova": {},
+  "windowsAndroidStudioPath": "C:\\Users\\devduldu\\AppData\\Local\\JetBrains\\Toolbox\\apps\\AndroidStudio\\ch-0\\193.6821437\\bin\\studio64.exe"
+}
