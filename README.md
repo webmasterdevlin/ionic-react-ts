@@ -1,4 +1,4 @@
-# Ionic and Apollo Client 3
+# Ionic, Apollo Client 3, and Capacitor Share
 
 #### To start
 
@@ -7,7 +7,7 @@
 
 #### Create ionic react
 
-```bash
+```pwsh
 $ npm i -g @ionic/cli
 $ ionic start ionic-react-demo --type react
 ```
@@ -20,7 +20,7 @@ $ ionic serve
 
 ##### For mobile
 
-```
+```zsh
 $ ionic build
 $ npx cap add android
 $ npx cap add ios
