@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   IonButton,
   IonCard,
@@ -9,6 +9,7 @@ import {
   IonHeader,
   IonItem,
   IonPage,
+  IonSpinner,
   IonTitle,
   IonToolbar,
 } from '@ionic/react';
@@ -48,20 +49,25 @@ const BASE_URL = 'http://countries-274616.ew.r.appspot.com/';
 
 const App: React.FC = () => {
   const [graphqlResponse, setGraphqlResponse] = useState<any>({});
-
+  const [loading, setLoading] = useState(false);
   const client = new ApolloClient({
     cache: new InMemoryCache(),
     uri: BASE_URL,
     resolvers: {},
   });
 
-  client
-    .query({
-      query: COUNTRIES_QUERY,
-    })
-    .then((res: CountriesResponseType) => {
-      setGraphqlResponse(res);
-    });
+  useEffect(() => {
+    setLoading(true);
+    client
+      .query({
+        query: COUNTRIES_QUERY,
+      })
+      .then((res: CountriesResponseType) => {
+        setGraphqlResponse(res);
+      })
+      .catch(err => alert(err.message))
+      .finally(() => setLoading(false));
+  }, [client]);
 
   const shareImage = async () => {
     const image = await Plugins.Camera.getPhoto({
@@ -85,6 +91,8 @@ const App: React.FC = () => {
     });
   };
 
+  // TODO: shareLocalFile
+
   return (
     <ApolloProvider client={client}>
       <IonPage>
@@ -94,6 +102,17 @@ const App: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen>
+          {loading && (
+            <div
+              style={{
+                margin: '1rem',
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              <IonSpinner name="crescent" />
+            </div>
+          )}
           {graphqlResponse.data &&
             graphqlResponse.data.Country.map((country: CountryModel) => (
               <IonCard key={country.name}>
@@ -102,7 +121,11 @@ const App: React.FC = () => {
                   alt={country.name}
                 />
                 <IonCardHeader
-                  style={{ display: 'flex', flexDirection: 'row' }}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                  }}
                 >
                   <div>
                     <IonCardSubtitle>{country.name}</IonCardSubtitle>
@@ -111,7 +134,7 @@ const App: React.FC = () => {
                   <div>
                     <IonItem>
                       <IonButton onClick={() => shareImage()}>
-                        Share Image
+                        Capture an image
                       </IonButton>
                       <IonButton
                         onClick={() =>
