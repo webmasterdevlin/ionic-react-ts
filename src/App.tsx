@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import {
+  IonButton,
   IonCard,
   IonCardHeader,
   IonCardSubtitle,
   IonCardTitle,
   IonContent,
   IonHeader,
+  IonItem,
   IonPage,
   IonTitle,
   IonToolbar,
@@ -38,6 +40,9 @@ import {
 } from '@apollo/client';
 import { CountriesResponseType, CountryModel } from './models/country.model';
 import { COUNTRIES_QUERY } from './graphql/queries';
+import { CameraResultType, CameraSource, Plugins } from '@capacitor/core';
+
+const { Share } = Plugins;
 
 const BASE_URL = 'http://countries-274616.ew.r.appspot.com/';
 
@@ -58,6 +63,28 @@ const App: React.FC = () => {
       setGraphqlResponse(res);
     });
 
+  const shareImage = async () => {
+    const image = await Plugins.Camera.getPhoto({
+      quality: 100,
+      allowEditing: false,
+      resultType: CameraResultType.Uri,
+      source: CameraSource.Camera,
+    });
+
+    await Share.share({
+      title: 'Check my image',
+      url: image.path,
+    });
+  };
+
+  const basicShare = async () => {
+    await Share.share({
+      title: 'Yahoo',
+      text: 'Check this out!',
+      url: 'https://devlinduldulao.pro',
+    });
+  };
+
   return (
     <ApolloProvider client={client}>
       <IonPage>
@@ -67,6 +94,10 @@ const App: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen>
+          <IonItem>
+            <IonButton onClick={() => shareImage()}>Share Image</IonButton>
+            <IonButton onClick={() => basicShare()}>Basic Share</IonButton>
+          </IonItem>
           {graphqlResponse.data &&
             graphqlResponse.data.Country.map((country: CountryModel) => (
               <IonCard key={country.name}>
