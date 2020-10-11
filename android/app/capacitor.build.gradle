@@ -10,10 +10,7 @@ android {
 apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
 
-    implementation "androidx.legacy:legacy-support-v4:1.0.0"
-    implementation "com.android.support:support-v13:27.+"
-    implementation "me.leolin:ShortcutBadger:1.1.17@aar"
-    implementation "com.google.firebase:firebase-messaging:17.0.+"
+
 }
 apply from: "../../node_modules/phonegap-plugin-multidex/multidex.gradle"
 

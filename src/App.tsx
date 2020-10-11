@@ -63,7 +63,7 @@ const App: React.FC = () => {
       <IonPage>
         <IonHeader>
           <IonToolbar>
-            <IonTitle>Post Pandemic Travels!</IonTitle>
+            <IonTitle>Post Pandemic Travels</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen>

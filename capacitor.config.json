@@ -10,5 +10,9 @@
     }
   },
   "cordova": {},
-  "windowsAndroidStudioPath": "C:\\Users\\devduldu\\AppData\\Local\\JetBrains\\Toolbox\\apps\\AndroidStudio\\ch-0\\193.6821437\\bin\\studio64.exe"
+  "windowsAndroidStudioPath": "C:\\Users\\devduldu\\AppData\\Local\\JetBrains\\Toolbox\\apps\\AndroidStudio\\ch-0\\193.6821437\\bin\\studio64.exe",
+  "server": {
+    "url": "http://172.24.224.1:8100",
+    "cleartext": true
+  }
 }
