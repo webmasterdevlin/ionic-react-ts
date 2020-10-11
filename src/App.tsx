@@ -77,11 +77,11 @@ const App: React.FC = () => {
     });
   };
 
-  const basicShare = async () => {
+  const basicShare = async (url: string) => {
     await Share.share({
       title: 'Yahoo',
       text: 'Check this out!',
-      url: 'https://devlinduldulao.pro',
+      url,
     });
   };
 
@@ -94,10 +94,6 @@ const App: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen>
-          <IonItem>
-            <IonButton onClick={() => shareImage()}>Share Image</IonButton>
-            <IonButton onClick={() => basicShare()}>Basic Share</IonButton>
-          </IonItem>
           {graphqlResponse.data &&
             graphqlResponse.data.Country.map((country: CountryModel) => (
               <IonCard key={country.name}>
@@ -105,9 +101,29 @@ const App: React.FC = () => {
                   src={`https://picsum.photos/800/400?country=${country.name}`}
                   alt={country.name}
                 />
-                <IonCardHeader>
-                  <IonCardSubtitle>{country.name}</IonCardSubtitle>
-                  <IonCardTitle>{country.capital}</IonCardTitle>
+                <IonCardHeader
+                  style={{ display: 'flex', flexDirection: 'row' }}
+                >
+                  <div>
+                    <IonCardSubtitle>{country.name}</IonCardSubtitle>
+                    <IonCardTitle>{country.capital}</IonCardTitle>
+                  </div>
+                  <div>
+                    <IonItem>
+                      <IonButton onClick={() => shareImage()}>
+                        Share Image
+                      </IonButton>
+                      <IonButton
+                        onClick={() =>
+                          basicShare(
+                            `https://picsum.photos/800/400?country=${country.name}`,
+                          )
+                        }
+                      >
+                        Basic Share
+                      </IonButton>
+                    </IonItem>
+                  </div>
                 </IonCardHeader>
               </IonCard>
             ))}
