@@ -32,6 +32,8 @@ $ ionic capacitor run ios --livereload
 
 #### TODO
 
+- https://ionicacademy.com/capacitor-local-notifications/
+- https://devdactic.com/push-notifications-ionic-capacitor/
 - https://ionicframework.com/docs/native/push
 - https://ionicframework.com/docs/native/local-notifications
 - https://ionicframework.com/docs/native/social-sharing

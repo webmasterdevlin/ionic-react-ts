@@ -33,23 +33,18 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 
-import {
-  ApolloClient,
-  ApolloProvider,
-  gql,
-  InMemoryCache,
-} from '@apollo/client';
+import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 import { CountriesResponseType, CountryModel } from './models/country.model';
 import { COUNTRIES_QUERY } from './graphql/queries';
 import { CameraResultType, CameraSource, Plugins } from '@capacitor/core';
 
-const { Share } = Plugins;
+const { Share, LocalNotifications } = Plugins;
 
 const BASE_URL = 'http://countries-274616.ew.r.appspot.com/';
 
 const App: React.FC = () => {
   const [graphqlResponse, setGraphqlResponse] = useState<any>({});
-  const [loading, setLoading] = useState(false);
+
   const client = new ApolloClient({
     cache: new InMemoryCache(),
     uri: BASE_URL,
@@ -57,7 +52,7 @@ const App: React.FC = () => {
   });
 
   useEffect(() => {
-    setLoading(true);
+    localNotifications().then();
     client
       .query({
         query: COUNTRIES_QUERY,
@@ -65,8 +60,9 @@ const App: React.FC = () => {
       .then((res: CountriesResponseType) => {
         setGraphqlResponse(res);
       })
-      .catch(err => alert(err.message))
-      .finally(() => setLoading(false));
+      .catch(err => {
+        alert(err.message);
+      });
   }, [client]);
 
   const shareImage = async () => {
@@ -91,6 +87,26 @@ const App: React.FC = () => {
     });
   };
 
+  const localNotifications = async () => {
+    await LocalNotifications.requestPermission();
+  };
+
+  const scheduleBasic = async () => {
+    await LocalNotifications.schedule({
+      notifications: [
+        {
+          title: 'Friendly Reminder from Devlin',
+          body: "Meet project's deadline",
+          id: 1,
+          extra: {
+            data: 'pass data to your handler',
+          },
+          iconColor: '#0000FF',
+        },
+      ],
+    });
+  };
+
   // TODO: shareLocalFile
 
   return (
@@ -102,18 +118,7 @@ const App: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen>
-          {loading && (
-            <div
-              style={{
-                margin: '1rem',
-                display: 'flex',
-                justifyContent: 'center',
-              }}
-            >
-              <IonSpinner name="crescent" />
-            </div>
-          )}
-          {graphqlResponse.data &&
+          {graphqlResponse.data ? (
             graphqlResponse.data.Country.map((country: CountryModel) => (
               <IonCard key={country.name}>
                 <img
@@ -134,7 +139,7 @@ const App: React.FC = () => {
                   <div>
                     <IonItem>
                       <IonButton onClick={() => shareImage()}>
-                        Capture an image
+                        Capture
                       </IonButton>
                       <IonButton
                         onClick={() =>
@@ -143,13 +148,27 @@ const App: React.FC = () => {
                           )
                         }
                       >
-                        Basic Share
+                        Share
+                      </IonButton>
+                      <IonButton onClick={async () => await scheduleBasic()}>
+                        Notify Me
                       </IonButton>
                     </IonItem>
                   </div>
                 </IonCardHeader>
               </IonCard>
-            ))}
+            ))
+          ) : (
+            <div
+              style={{
+                margin: '1rem',
+                display: 'flex',
+                justifyContent: 'center',
+              }}
+            >
+              <IonSpinner name="crescent" />
+            </div>
+          )}
         </IonContent>
       </IonPage>
     </ApolloProvider>
